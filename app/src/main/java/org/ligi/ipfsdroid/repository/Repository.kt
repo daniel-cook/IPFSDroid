@@ -25,6 +25,7 @@ class Repository(val ipfs: IPFS) {
     companion object {
         const val DOWNLOADS_DIR_NAME = "downloads"
         const val GLOBAL_FEEDS_HASH = "QmcCmuBnd1o8NbZWWP7KESWhynCQmxkLS41q8Qk3xmoNYA"
+        const val GLOBAL_FEEDS_IPNS = "QmPEVsRj29xgpG44ZrCL1rRyCSVbVxAhU7z11UWsQNXY7o"
     }
 
     val TAG = Repository::class.simpleName
@@ -48,6 +49,14 @@ class Repository(val ipfs: IPFS) {
         return ipfs.get.cat(hash)
     }
 
+    private fun getStringByIPNS(hash: String): String? {
+        val resolved = ipfs.name.resolve(hash)
+        resolved?.let {
+            return getStringByHash(it.split("/").last())
+        }
+        return null
+    }
+
     fun getInputStreamFromHash(hash: String, handler: (InputStream) -> Unit) {
         ipfs.get.catStream(hash, handler)
 
@@ -56,9 +65,13 @@ class Repository(val ipfs: IPFS) {
     fun getBroadCasters(): BroadCastersList? {
         // let's assume that we're getting a list of broadcasters from the web someplace and for now
         // just load it from the global feed hash
-        val feeds = getStringByHash(GLOBAL_FEEDS_HASH)
+//        val feeds = getStringByHash(GLOBAL_FEEDS_HASH)
+        val feeds = getStringByIPNS(GLOBAL_FEEDS_IPNS)
         val jsonAdapter = moshi.adapter(BroadCastersList::class.java)
-        return jsonAdapter.fromJson(feeds)
+        feeds?.let {
+            return jsonAdapter.fromJson(feeds)
+        }
+        return null
     }
 
     fun getFeedForBroadcaster(feedHash: String): FeedsList? {
