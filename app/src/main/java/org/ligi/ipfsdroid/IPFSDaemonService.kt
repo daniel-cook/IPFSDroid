@@ -32,7 +32,7 @@ class IPFSDaemonService : IntentService("IPFSDaemonService") {
         nManager!!.notify(NOTIFICATION_ID, builder.build())
 
         try {
-            daemon = IPFSDaemon(baseContext).run("daemon")
+            daemon = IPFSDaemon(baseContext).run("daemon --enable-namesys-pubsub")  // TODO does this help resolve IPNS stuff?
             State.isDaemonRunning = true
             daemon!!.waitFor()
         } catch (e: InterruptedException) {
