@@ -84,6 +84,9 @@ Each broadcaster has a file published on the network like this:
 - [x] Create a playlist for playing downloaded items (probably using Room)
 - [x] Add more data to the broadcasters as there is currently a good deal of overlap
 - [ ] Add thumbnails to the items in the feeds
-- [ ] Move Feeds.json to an IPNS namespace so it is mutable (potentially re-architect the whole thing so that each broadcaster's feed is at an IPNS)
+- [ ] Move Feeds.json to an IPNS namespace so it is mutable (potentially re-architect the whole thing so that each broadcaster's feed is at an IPNS) - this is a non starter because resolving these names takes over 1 minute at this point with no known
+- [ ] Switch over to this player - https://android-developers.googleblog.com/2018/06/a-new-universal-music-player.html?linkId=53783436
 - [x] Fix oddities with player 
 - [ ] Benchmark download speeds under various conditions of nodes on the network with the requested file
+- [ ] Make a version of the app on top of DAT
+- [ ] Make a version of the app on top of Ethereum Swarm - https://swarm-guide.readthedocs.io/en/latest/introduction.html
