@@ -12,6 +12,7 @@ import org.ligi.ipfsdroid.repository.Repository
 /**
  * Created by WillowTree on 9/11/18.
  */
+// TODO add a click listener that starts playing the current item and moves it to the top of the playlist, saving the bookmark of the current item
 class PlaylistRecyclerAdapter(val items: List<PlaylistItem>, val repository: Repository) : RecyclerView.Adapter<PlaylistViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
