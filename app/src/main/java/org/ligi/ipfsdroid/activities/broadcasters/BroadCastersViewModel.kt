@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.ligi.ipfsdroid.model.Broadcaster
 import org.ligi.ipfsdroid.repository.Repository
 
@@ -25,7 +26,7 @@ class BroadCastersViewModel : ViewModel() {
     }
 
     private fun loadBroadCasters() {
-        async {
+        launch {
             broadCasters?.postValue(repository.getBroadCasters()?.broadcasters)
         }
     }

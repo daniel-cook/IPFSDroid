@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        daemonButton.setOnClickListener {
+        daemonButton.setOnClickListener { it ->
             startService(Intent(this, IPFSDaemonService::class.java))
 
             daemonButton.visibility = View.GONE

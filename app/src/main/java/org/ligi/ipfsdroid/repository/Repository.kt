@@ -8,7 +8,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
 import io.ipfs.kotlin.model.VersionInfo
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.Feed
@@ -27,9 +27,9 @@ class Repository(val ipfs: IPFS) {
         const val GLOBAL_FEEDS_HASH = "QmcCmuBnd1o8NbZWWP7KESWhynCQmxkLS41q8Qk3xmoNYA"
     }
 
-    val TAG = Repository::class.simpleName
+    private val TAG = Repository::class.simpleName
 
-    val moshi = Moshi.Builder()
+    private val moshi = Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
             .build()
 
@@ -48,7 +48,7 @@ class Repository(val ipfs: IPFS) {
         return ipfs.get.cat(hash)
     }
 
-    fun getInputStreamFromHash(hash: String, handler: (InputStream) -> Unit) {
+    private fun getInputStreamFromHash(hash: String, handler: (InputStream) -> Unit) {
         ipfs.get.catStream(hash, handler)
 
     }
@@ -61,7 +61,7 @@ class Repository(val ipfs: IPFS) {
         return jsonAdapter.fromJson(feeds)
     }
 
-    fun getFeedForBroadcaster(feedHash: String): FeedsList? {
+    private fun getFeedForBroadcaster(feedHash: String): FeedsList? {
         val jsonString = getStringByHash(feedHash)
         val feedsAdapter = moshi.adapter(FeedsList::class.java)
         return feedsAdapter.fromJson(jsonString)
@@ -73,7 +73,6 @@ class Repository(val ipfs: IPFS) {
     }
 
     fun deleteFile(file: File) {
-        file.delete()
         unPinFile(file)
     }
 
@@ -83,7 +82,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     fun insertPlaylistItem(feedItem: Feed, downloadComplete: () -> Unit) {
-        async {
+        launch {
             getInputStreamFromHash(feedItem.link) {
                 Log.d(TAG, "Starting File Download")
                 val downloadFile = getDownloadFile(feedItem.fileName, appContext)
@@ -98,7 +97,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     fun deletePlaylistItem(playlistItem: PlaylistItem) {
-        async {
+        launch {
             PlaylistDatabase.getInstance(appContext)?.playListDao()?.deleteByHash(playlistItem.hash)
             deleteFile(File(playlistItem.fileName))
         }
@@ -109,7 +108,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     fun updatePlaylistItem(playlistItem: PlaylistItem) {
-        async {
+        launch {
             PlaylistDatabase.getInstance(appContext)?.playListDao()?.updatePlaylistItem(playlistItem)
         }
     }
@@ -130,7 +129,7 @@ class Repository(val ipfs: IPFS) {
      * is pinned and not garbage collected from local storage until it is deleted by the user.
      * Whether or not this is necessary is an open question.
      */
-    fun addFileToIPFS(file: File): NamedHash {
+    private fun addFileToIPFS(file: File): NamedHash {
         return ipfs.add.file(file)
     }
 
@@ -138,10 +137,11 @@ class Repository(val ipfs: IPFS) {
      * This method unPins a link from IPFS.  Whether this pinning and unpinning is actually necessary
      * is an open question
      */
-    fun unPinFile(file: File) {
-        async {
+    private fun unPinFile(file: File) {
+        launch {
             val hash = addFileToIPFS(file).Hash
             ipfs.add.unPin(hash)
+            file.delete()
         }
     }
 
@@ -152,7 +152,7 @@ class Repository(val ipfs: IPFS) {
     /**
      * Get a link in the downloads directory of private storage for downloading the link for playback
      */
-    fun getDownloadFile(description: String, context: Context): File {
+    private fun getDownloadFile(description: String, context: Context): File {
         return File(context.getDir(DOWNLOADS_DIR_NAME, Context.MODE_PRIVATE), description)
     }
 

@@ -32,9 +32,9 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     var userIsSeeking: Boolean = false
 
-    lateinit var durationTextView: TextView
+    private lateinit var durationTextView: TextView
 
-    var currentlyPlayingItem: PlaylistItem? = null
+    private var currentlyPlayingItem: PlaylistItem? = null
 
     companion object {
         private val TAG = PlayerActivity::class.simpleName
@@ -74,7 +74,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         }
 
         stop_button.setOnClickListener {
-            onBackPressed()
+            onBackPressed() // TODO somehow this doesn't actually stop the audio
         }
 
         pause_button.setOnClickListener {
@@ -103,7 +103,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         return super.onOptionsItemSelected(item)
     }
 
-    fun initializeSeekbar() {
+    private fun initializeSeekbar() {
         seek_bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             var userSelectedPosition: Int = 0

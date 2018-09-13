@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.feed_list_item.view.*
 import kotlinx.android.synthetic.main.feed_list_item_in_playlist.view.*
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.activities.player.PlayerActivity
 import org.ligi.ipfsdroid.inflate
@@ -18,7 +18,7 @@ import org.ligi.ipfsdroid.repository.Repository
 /**
  * Created by WillowTree on 8/31/18.
  */
-class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, val playlist: List<PlaylistItem>, val downloadCompleteListener: () -> Unit) : RecyclerView.Adapter<FeedsViewHolderBase>() {
+class FeedsRecyclerAdapter(private val items: List<Feed>, val repository: Repository, val playlist: List<PlaylistItem>, private val downloadCompleteListener: () -> Unit) : RecyclerView.Adapter<FeedsViewHolderBase>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedsViewHolderBase {
         return when (viewType) {
@@ -60,7 +60,7 @@ class FeedsRecyclerAdapter(val items: List<Feed>, val repository: Repository, va
             IN_PLAYLIST_VIEW -> {
                 val feedsViewHolder = holder as FeedsViewHolderInPlaylist
                 feedsViewHolder.playAssetButton.setOnClickListener {
-                    async {
+                    launch {
                         repository.movePlayListItem(items[position].link, 0)
                         it.context.startActivity(Intent(it.context, PlayerActivity::class.java))
                     }

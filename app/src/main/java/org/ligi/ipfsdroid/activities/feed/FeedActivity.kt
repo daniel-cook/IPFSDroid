@@ -20,11 +20,11 @@ class FeedActivity : AppCompatActivity() {
     @Inject
     lateinit var repository: Repository
 
-    val TAG = FeedActivity::class.simpleName
+    private val TAG = FeedActivity::class.simpleName
 
-    lateinit var feedHash: String
+    private lateinit var feedHash: String
 
-    lateinit var viewModel: FeedViewModel
+    private lateinit var viewModel: FeedViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -15,7 +15,7 @@ import org.ligi.ipfsdroid.model.Broadcaster
 /**
  * Created by WillowTree on 8/31/18.
  */
-class BroadcastersRecyclerViewAdapter(val items: List<Broadcaster>) :
+class BroadcastersRecyclerViewAdapter(private val items: List<Broadcaster>) :
         RecyclerView.Adapter<BroadcasterViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BroadcasterViewHolder {

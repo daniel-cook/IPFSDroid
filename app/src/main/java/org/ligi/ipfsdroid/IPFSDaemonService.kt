@@ -12,7 +12,7 @@ class IPFSDaemonService : IntentService("IPFSDaemonService") {
 
     private var nManager: NotificationManager? = null
     private var daemon: Process? = null
-    internal var NOTIFICATION_ID = 12345
+    private var NOTIFICATION_ID = 12345
 
     override fun onHandleIntent(intent: Intent) {
         val exitIntent = Intent(this, IPFSDaemonService::class.java)

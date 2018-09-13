@@ -2,9 +2,8 @@ package org.ligi.ipfsdroid.activities.downloads
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.NavUtils
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
@@ -24,7 +23,7 @@ class DownloadsActivity : AppCompatActivity() {
     @Inject
     lateinit var repository: Repository
 
-    lateinit var viewModel: DownloadsViewModel
+    private lateinit var viewModel: DownloadsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +59,7 @@ class DownloadsActivity : AppCompatActivity() {
     }
 }
 
-class DownloadsRecyclerViewAdapter(val items: List<File>, val repository: Repository, val viewModel: DownloadsViewModel) : RecyclerView.Adapter<DownloadsViewHolder>() {
+class DownloadsRecyclerViewAdapter(private val items: List<File>, val repository: Repository, private val viewModel: DownloadsViewModel) : RecyclerView.Adapter<DownloadsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DownloadsViewHolder {
         val inflatedView = parent.inflate(R.layout.downloads_list_item,  false)
