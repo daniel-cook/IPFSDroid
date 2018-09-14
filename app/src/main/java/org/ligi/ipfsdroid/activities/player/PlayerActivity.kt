@@ -59,6 +59,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         viewModel.getPlaylist()?.observe(this, Observer { playListItems ->
             playListItems?.let {
                 if(it.isNotEmpty()) {
+                    playerAdapter.release()  // Stop a current item if it is playing
                     playerAdapter.loadMedia(Uri.parse(it[0].fileName), this@PlayerActivity, it[0].bookmark)
                     recyclerViewPlaylist.adapter = PlaylistRecyclerAdapter(it, repository)
                     title = it[0].name
@@ -140,6 +141,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
         override fun onStateChanged(state: Int) {
             val stateString = PlaybackInfoListener.convertStateToString(state)
+            Log.d(TAG, stateString)
         }
 
         override fun onDurationChanged(duration: Int) {

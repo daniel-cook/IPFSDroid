@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.play_list_view_item.view.*
+import kotlinx.coroutines.experimental.launch
 import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.inflate
 import org.ligi.ipfsdroid.repository.PlaylistItem
@@ -12,7 +13,6 @@ import org.ligi.ipfsdroid.repository.Repository
 /**
  * Created by WillowTree on 9/11/18.
  */
-// TODO add a click listener that starts playing the current item and moves it to the top of the playlist, saving the bookmark of the current item
 class PlaylistRecyclerAdapter(private val items: List<PlaylistItem>, val repository: Repository) : RecyclerView.Adapter<PlaylistViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
@@ -36,6 +36,16 @@ class PlaylistRecyclerAdapter(private val items: List<PlaylistItem>, val reposit
             holder.deleteButton.visibility = View.GONE
         } else {
             holder.itemView.setBackgroundColor(holder.itemView.context.resources.getColor(R.color.background_floating_material_light))
+        }
+
+        holder.itemView.tag = position
+        holder.itemView.setOnClickListener {
+            val p :Int = it.tag as Int
+            if(p > 0) {
+                launch {
+                    repository.movePlayListItem(items[p].hash, 0)
+                }
+            }
         }
     }
 
