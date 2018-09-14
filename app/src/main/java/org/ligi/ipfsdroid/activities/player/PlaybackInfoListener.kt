@@ -7,10 +7,10 @@ package org.ligi.ipfsdroid.activities.player
 abstract class PlaybackInfoListener {
 
     companion object {
-        private const val INVALID = -1
+        const val INVALID = -1
         const val PLAYING = 0
         const val PAUSED = 1
-        private const val RESET = 2
+        const val RESET = 2
         private const val COMPLETED = 3
 
         fun convertStateToString(state: Int): String {

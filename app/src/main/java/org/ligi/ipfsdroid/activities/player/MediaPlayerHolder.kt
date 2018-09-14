@@ -95,6 +95,13 @@ class MediaPlayerHolder(var context: Context) : PlayerAdapter {
         }
     }
 
+    override fun reset() {
+        mediaPlayer?.pause()
+        mediaPlayer?.seekTo(0)
+        playbackInfoListener?.onStateChanged(PlaybackInfoListener.RESET)
+        stopUpdatingCallbackWithPosition(true)
+    }
+
     override fun initializeProgressCallback() {
         val duration: Int = mediaPlayer?.duration ?: 0
         playbackInfoListener?.onDurationChanged(duration)
@@ -106,5 +113,16 @@ class MediaPlayerHolder(var context: Context) : PlayerAdapter {
     }
     //endregion
 
+    private fun stopUpdatingCallbackWithPosition(resetUIPlaybackPosition: Boolean) {
+        executor?.let {
+            it.shutdownNow()
+            seekbarPositionUpdateTask = null
+
+            if (resetUIPlaybackPosition && playbackInfoListener != null) {
+                playbackInfoListener!!.onPositionChanged(0)
+            }
+        }
+        executor = null
+    }
 
 }

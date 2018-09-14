@@ -74,7 +74,7 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         }
 
         stop_button.setOnClickListener {
-            onBackPressed() // TODO somehow this doesn't actually stop the audio
+            playerAdapter.reset()
         }
 
         pause_button.setOnClickListener {
@@ -125,6 +125,17 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         })
     }
 
+
+
+    override fun onDestroy() {
+        playerAdapter.release()
+        currentlyPlayingItem?.let {
+            it.bookmark = seek_bar.progress.toLong()
+            repository.updatePlaylistItem(it)
+        }
+        super.onDestroy()
+    }
+
     inner class MyPlaybackInfoListener : PlaybackInfoListener() {
 
         override fun onStateChanged(state: Int) {
@@ -143,7 +154,6 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
                 seek_bar.progress = position
                 runOnUiThread {
                     textViewCurrentPosition.text = getReadableTimeFromMillis(position.toLong())
-
                 }
             }
         }
@@ -151,15 +161,6 @@ class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
         override fun onPlaybackCompleted() {
         }
 
-    }
-
-    override fun onDestroy() {
-        playerAdapter.release()
-        currentlyPlayingItem?.let {
-            it.bookmark = seek_bar.progress.toLong()
-            repository.updatePlaylistItem(it)
-        }
-        super.onDestroy()
     }
 
 }

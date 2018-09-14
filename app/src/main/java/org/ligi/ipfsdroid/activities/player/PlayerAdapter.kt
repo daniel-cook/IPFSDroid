@@ -20,6 +20,8 @@ interface PlayerAdapter {
 
     fun pause()
 
+    fun reset()
+
     fun initializeProgressCallback()
 
     fun seekTo(position: Int)
