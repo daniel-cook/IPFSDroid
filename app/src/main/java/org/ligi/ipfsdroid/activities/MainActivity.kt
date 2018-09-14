@@ -86,10 +86,6 @@ class MainActivity : AppCompatActivity() {
             refresh()
         }
 
-        startPlayerButton.setOnClickListener {
-            startActivity(Intent(this, PlayerActivity::class.java))
-        }
-
         refresh()
     }
 
