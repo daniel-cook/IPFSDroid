@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlin_version = '1.2.41'
+        kotlin_version = '1.2.70'
         support_version = '27.1.1'
         dagger_version = '2.15'
         permissiondispatcher_version = '3.2.0'
@@ -8,6 +8,7 @@ buildscript {
         lifecycle_version = '2.0.0-alpha1'
         archVersion = "1.1.1"
         roomVersion = "1.1.1"
+        ext.anko_version='0.10.6'
     }
 
     repositories {
@@ -16,7 +17,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.1'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'de.mobilej.unmock:UnMockPlugin:0.6.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
