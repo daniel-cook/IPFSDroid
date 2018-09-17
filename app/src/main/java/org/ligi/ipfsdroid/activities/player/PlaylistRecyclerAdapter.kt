@@ -4,7 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.play_list_view_item.view.*
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.doAsync
 import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.inflate
 import org.ligi.ipfsdroid.repository.PlaylistItem
@@ -42,7 +44,7 @@ class PlaylistRecyclerAdapter(private val items: List<PlaylistItem>, val reposit
         holder.itemView.setOnClickListener {
             val p :Int = it.tag as Int
             if(p > 0) {
-                launch {
+                doAsync {
                     repository.movePlayListItem(items[p].hash, 0)
                 }
             }

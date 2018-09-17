@@ -3,8 +3,10 @@ package org.ligi.ipfsdroid.activities.feed
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.doAsync
 import org.ligi.ipfsdroid.model.FeedsList
 import org.ligi.ipfsdroid.repository.PlaylistItem
 import org.ligi.ipfsdroid.repository.Repository
@@ -31,7 +33,7 @@ class FeedViewModel : ViewModel() {
     }
 
     fun loadFeed() {
-        launch {
+        doAsync {
             feedAndPlaylist?.postValue(repository.getFeedAndPlaylist(feedHash))
         }
     }

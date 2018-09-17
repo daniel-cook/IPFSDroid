@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_broadcasters.*
+import org.jetbrains.anko.startActivity
 import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.IPFSDaemonService
 import org.ligi.ipfsdroid.R
@@ -56,9 +57,9 @@ class BroadCastersActivity : AppCompatActivity() {
          */
         navigationView.setNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.navDownloads -> startActivity(Intent(this@BroadCastersActivity, DownloadsActivity::class.java))
+                R.id.navDownloads -> startActivity<DownloadsActivity>()
                 R.id.stopDaemon -> stopDaemonAndGoHome()
-                R.id.player -> startActivity(Intent(this, PlayerActivity::class.java))
+                R.id.player -> startActivity<PlayerActivity>()
             }
             drawerLayout.closeDrawers()
             true
@@ -69,7 +70,7 @@ class BroadCastersActivity : AppCompatActivity() {
     private fun stopDaemonAndGoHome() {
         stopService(Intent(this, IPFSDaemonService::class.java))
         State.isDaemonRunning = false
-        startActivity(Intent(this@BroadCastersActivity, MainActivity::class.java))
+        startActivity<MainActivity>()
         finish()
     }
 

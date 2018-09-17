@@ -8,7 +8,9 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
 import io.ipfs.kotlin.model.VersionInfo
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
+import org.jetbrains.anko.doAsync
 import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.Feed
@@ -82,7 +84,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     fun insertPlaylistItem(feedItem: Feed, downloadComplete: () -> Unit) {
-        launch {
+        doAsync {
             getInputStreamFromHash(feedItem.link) {
                 Log.d(TAG, "Starting File Download")
                 val downloadFile = getDownloadFile(feedItem.fileName, appContext)
@@ -97,7 +99,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     fun deletePlaylistItem(playlistItem: PlaylistItem) {
-        launch {
+        doAsync {
             PlaylistDatabase.getInstance(appContext)?.playListDao()?.deleteByHash(playlistItem.hash)
             deleteFile(File(playlistItem.fileName))
         }
@@ -108,7 +110,7 @@ class Repository(val ipfs: IPFS) {
     }
 
     fun updatePlaylistItem(playlistItem: PlaylistItem) {
-        launch {
+        doAsync {
             PlaylistDatabase.getInstance(appContext)?.playListDao()?.updatePlaylistItem(playlistItem)
         }
     }
@@ -138,7 +140,7 @@ class Repository(val ipfs: IPFS) {
      * is an open question
      */
     private fun unPinFile(file: File) {
-        launch {
+        doAsync {
             val hash = addFileToIPFS(file).Hash
             ipfs.add.unPin(hash)
             file.delete()

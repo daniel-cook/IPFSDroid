@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import io.ipfs.kotlin.model.VersionInfo
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.activities.broadcasters.BroadCastersActivity
 import org.ligi.ipfsdroid.activities.player.PlayerActivity
@@ -60,7 +62,8 @@ class MainActivity : AppCompatActivity() {
             progressDialog.show()
 
 
-            Thread(Runnable {
+            doAsync {
+
                 var version: VersionInfo? = null
                 while (version == null) {
                     try {
@@ -70,11 +73,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                runOnUiThread {
-                    progressDialog.dismiss()
+                uiThread {
+                    progressDialog.dismiss()  // TODO this crashes if the device is rotated while loading the daemon - the smart way to fix this is to have this stuff done inside a view model that will persist past the life of the Activity
                     startActivityFromClass(BroadCastersActivity::class.java)
                 }
-            }).start()
+            }
+
 
             refresh()
         }
