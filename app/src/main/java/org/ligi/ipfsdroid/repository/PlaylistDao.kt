@@ -65,7 +65,8 @@ interface PlaylistDao {
                 bookmark = 0L,
                 index = 0.0,
                 name = feedItem.title,
-                description = feedItem.fileName)
+                description = feedItem.fileName,
+                thumbNail = feedItem.thumbNail)
         insertPlayListItem(playlistItem, -1)
     }
 }

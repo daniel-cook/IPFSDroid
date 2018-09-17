@@ -2,6 +2,7 @@ package org.ligi.ipfsdroid.repository
 
 import android.arch.lifecycle.LiveData
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -15,6 +16,7 @@ import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.Feed
 import org.ligi.ipfsdroid.model.FeedsList
+import java.io.BufferedInputStream
 import java.io.File
 import java.io.InputStream
 import javax.inject.Inject
@@ -26,7 +28,7 @@ class Repository(val ipfs: IPFS) {
 
     companion object {
         const val DOWNLOADS_DIR_NAME = "downloads"
-        const val GLOBAL_FEEDS_HASH = "QmcCmuBnd1o8NbZWWP7KESWhynCQmxkLS41q8Qk3xmoNYA"
+        const val GLOBAL_FEEDS_HASH = "QmZKPvrVg6cZG8YWx4jx1GuYyJUThd1BfvNZzstmNGPh1r"
     }
 
     private val TAG = Repository::class.simpleName
@@ -53,6 +55,10 @@ class Repository(val ipfs: IPFS) {
     private fun getInputStreamFromHash(hash: String, handler: (InputStream) -> Unit) {
         ipfs.get.catStream(hash, handler)
 
+    }
+
+    fun getImageBitmapFromHash(hash: String, handler: (InputStream) -> Unit) {
+        val inputStream = getInputStreamFromHash(hash, handler)
     }
 
     fun getBroadCasters(): BroadCastersList? {

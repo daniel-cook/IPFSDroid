@@ -8,10 +8,12 @@ buildscript {
         lifecycle_version = '2.0.0-alpha1'
         archVersion = "1.1.1"
         roomVersion = "1.1.1"
-        ext.anko_version='0.10.6'
+        anko_version='0.10.6'
+        glide_version = '4.8.0'
     }
 
     repositories {
+        mavenCentral()
         jcenter()
         google()
     }

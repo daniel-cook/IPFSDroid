@@ -1,19 +1,25 @@
 package org.ligi.ipfsdroid.activities.feed
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.feed_list_item.view.*
 import kotlinx.android.synthetic.main.feed_list_item_in_playlist.view.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.activities.player.PlayerActivity
+import org.ligi.ipfsdroid.glide.GlideApp
 import org.ligi.ipfsdroid.inflate
 import org.ligi.ipfsdroid.model.Feed
 import org.ligi.ipfsdroid.repository.PlaylistItem
 import org.ligi.ipfsdroid.repository.Repository
+import java.io.BufferedInputStream
 
 /**
  * Created by WillowTree on 8/31/18.
@@ -35,7 +41,6 @@ class FeedsRecyclerAdapter(private val items: List<Feed>, val repository: Reposi
                 FeedsViewHolder(inflatedView)
             }
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -45,7 +50,22 @@ class FeedsRecyclerAdapter(private val items: List<Feed>, val repository: Reposi
     override fun onBindViewHolder(holder: FeedsViewHolderBase, position: Int) {
 
         holder.nameText.text = items[position].title
-        holder.descriptionText.text = items[position].fileName
+        holder.descriptionText.text = items[position].description
+
+        // TODO this feels hacky
+        doAsync {
+            repository.getImageBitmapFromHash(items[position].thumbNail) { it ->
+                val bufferedInputStream = BufferedInputStream(it)
+                val bmp = BitmapFactory.decodeStream(bufferedInputStream)
+
+                uiThread {
+                    GlideApp.with(holder.itemView.context)
+                            .load(bmp)
+                            .centerCrop()
+                            .into(holder.thumbNailImageView)
+                }
+            }
+        }
 
         when (holder.itemViewType) {
             STANDARD_VIEW -> {
@@ -86,6 +106,7 @@ class FeedsRecyclerAdapter(private val items: List<Feed>, val repository: Reposi
 open class FeedsViewHolderBase(view: View) : RecyclerView.ViewHolder(view) {
     val nameText = view.findViewById<TextView>(R.id.textViewName)
     val descriptionText = view.findViewById<TextView>(R.id.textViewDescription)
+    val thumbNailImageView = view.findViewById<ImageView>(R.id.thumbnail)
 }
 
 class FeedsViewHolder(view: View) : FeedsViewHolderBase(view) {

@@ -5,7 +5,11 @@ import org.ligi.ipfsdroid.repository.PlaylistItem
 /**
  * Created by WillowTree on 8/29/18.
  */
-data class Feed(val title: String, val description: String, val fileName: String, val link: String) {
+data class Feed(val title: String,
+                val description: String,
+                val fileName: String,
+                val link: String,
+                val thumbNail: String) {
 
     fun isInPlayList(playlist: List<PlaylistItem>) : Boolean {
         for (item in playlist) {

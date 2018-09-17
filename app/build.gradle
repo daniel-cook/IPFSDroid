@@ -17,6 +17,7 @@ android {
         versionName "0.11"
         archivesBaseName = "IPFSDroid-$versionName"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -95,6 +96,15 @@ dependencies {
 
     // Anko coroutines
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    // Multidex
+    implementation 'com.android.support:multidex:1.0.3'
+
+
 
 }
 

@@ -30,4 +30,7 @@ data class PlaylistItem(
         var description: String,
 
         @ColumnInfo(name = "title")
-        var name: String)
+        var name: String,
+
+        @ColumnInfo(name = "thumbNail")
+        var thumbNail: String)
