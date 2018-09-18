@@ -23,6 +23,8 @@ import org.ligi.ipfsdroid.repository.PlaylistItem
 import org.ligi.ipfsdroid.repository.Repository
 import javax.inject.Inject
 
+// TODO delete this class since we aren't going to be using it with the Video Portion of the Project
+
 class PlayerActivity : AppCompatActivity(), MediaPlayer.OnCompletionListener {
 
     @Inject

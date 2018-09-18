@@ -67,6 +67,8 @@ class ExoplayerActivity : AppCompatActivity() {
 
     // TODO player state is not properly maintained when returning from the background
 
+    // TODO how do I show chainplay indicator?  Worthwhile?
+
     override fun onStart() {
         super.onStart()
         if (Util.SDK_INT > 23) { // On 24 and up, multi-window support dictates that we have the player initialized when visible but not active
