@@ -2,21 +2,21 @@ package org.ligi.ipfsdroid.repository
 
 import android.arch.lifecycle.LiveData
 import android.content.Context
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.ipfs.kotlin.IPFS
 import io.ipfs.kotlin.model.NamedHash
 import io.ipfs.kotlin.model.VersionInfo
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.doAsync
 import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.Feed
 import org.ligi.ipfsdroid.model.FeedsList
-import java.io.BufferedInputStream
 import java.io.File
 import java.io.InputStream
 import javax.inject.Inject
@@ -87,6 +87,16 @@ class Repository(val ipfs: IPFS) {
     //region Playlist methods
     fun getPlaylist(): LiveData<List<PlaylistItem>>? {
         return PlaylistDatabase.getInstance(appContext)?.playListDao()?.getAllLiveData()
+    }
+
+    fun getConcatMediaSourceFromPlaylist(dataSourceFactory: DefaultDataSourceFactory): ConcatenatingMediaSource {
+
+        val concatenatingMediaSource = ConcatenatingMediaSource()
+        PlaylistDatabase.getInstance(appContext)?.playListDao()?.getAll()?.forEach {
+            concatenatingMediaSource.addMediaSource(ExtractorMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(Uri.parse(it.fileName)))
+        }
+        return concatenatingMediaSource
     }
 
     fun insertPlaylistItem(feedItem: Feed, downloadComplete: () -> Unit) {

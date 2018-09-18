@@ -23,28 +23,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.broadcasters.BroadCastersActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.player.PlayerActivity"
-            android:label="@string/title_activity_player"
-            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".activities.feed.FeedActivity"/>
-
+            android:label="@string/title_activity_player"
+            android:parentActivityName=".activities.feed.FeedActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.feed.FeedActivity"
             android:label="@string/feed_activity_name"
-            android:parentActivityName=".activities.broadcasters.BroadCastersActivity"/>
-
+            android:parentActivityName=".activities.broadcasters.BroadCastersActivity" />
         <activity
             android:name=".activities.downloads.DownloadsActivity"
             android:label="@string/downloads_activity_name"
-            android:parentActivityName=".activities.broadcasters.BroadCastersActivity"/>
-
+            android:parentActivityName=".activities.broadcasters.BroadCastersActivity" />
+        <activity android:name=".activities.player.ExoplayerActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            />
     </application>
 
 </manifest>

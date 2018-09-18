@@ -104,7 +104,8 @@ dependencies {
     // Multidex
     implementation 'com.android.support:multidex:1.0.3'
 
-
+    // Exoplayer
+    implementation "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
 
 }
 

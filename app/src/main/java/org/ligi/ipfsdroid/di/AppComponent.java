@@ -6,6 +6,7 @@ import org.ligi.ipfsdroid.activities.broadcasters.BroadCastersActivity;
 import org.ligi.ipfsdroid.activities.MainActivity;
 import org.ligi.ipfsdroid.activities.downloads.DownloadsActivity;
 import org.ligi.ipfsdroid.activities.feed.FeedActivity;
+import org.ligi.ipfsdroid.activities.player.ExoplayerActivity;
 import org.ligi.ipfsdroid.activities.player.PlayerActivity;
 import org.ligi.ipfsdroid.repository.Repository;
 
@@ -17,6 +18,8 @@ public interface AppComponent {
     void inject(BroadCastersActivity broadCastersActivity);
 
     void inject(PlayerActivity playerActivity);
+
+    void inject(ExoplayerActivity exoplayerActivity);
 
     void inject(FeedActivity feedActivity);
 

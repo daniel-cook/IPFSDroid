@@ -11,7 +11,6 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.ligi.ipfsdroid.*
 import org.ligi.ipfsdroid.activities.broadcasters.BroadCastersActivity
-import org.ligi.ipfsdroid.activities.player.PlayerActivity
 import org.ligi.ipfsdroid.repository.Repository
 import org.ligi.kaxt.setVisibility
 import org.ligi.kaxt.startActivityFromClass

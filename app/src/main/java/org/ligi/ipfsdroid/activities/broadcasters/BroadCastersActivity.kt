@@ -17,7 +17,7 @@ import org.ligi.ipfsdroid.R
 import org.ligi.ipfsdroid.State
 import org.ligi.ipfsdroid.activities.MainActivity
 import org.ligi.ipfsdroid.activities.downloads.DownloadsActivity
-import org.ligi.ipfsdroid.activities.player.PlayerActivity
+import org.ligi.ipfsdroid.activities.player.ExoplayerActivity
 import org.ligi.ipfsdroid.model.Broadcaster
 import org.ligi.ipfsdroid.repository.Repository
 import javax.inject.Inject
@@ -59,7 +59,7 @@ class BroadCastersActivity : AppCompatActivity() {
             when(it.itemId) {
                 R.id.navDownloads -> startActivity<DownloadsActivity>()
                 R.id.stopDaemon -> stopDaemonAndGoHome()
-                R.id.player -> startActivity<PlayerActivity>()
+                R.id.player -> startActivity<ExoplayerActivity>()
             }
             drawerLayout.closeDrawers()
             true

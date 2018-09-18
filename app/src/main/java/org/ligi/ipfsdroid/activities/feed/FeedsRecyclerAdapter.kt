@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.feed_list_item.view.*
 import kotlinx.android.synthetic.main.feed_list_item_in_playlist.view.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.ligi.ipfsdroid.R
-import org.ligi.ipfsdroid.activities.player.PlayerActivity
+import org.ligi.ipfsdroid.activities.player.ExoplayerActivity
 import org.ligi.ipfsdroid.glide.GlideApp
 import org.ligi.ipfsdroid.inflate
 import org.ligi.ipfsdroid.model.Feed
@@ -82,7 +81,7 @@ class FeedsRecyclerAdapter(private val items: List<Feed>, val repository: Reposi
                 feedsViewHolder.playAssetButton.setOnClickListener {
                     doAsync {
                         repository.movePlayListItem(items[position].link, 0)
-                        it.context.startActivity(Intent(it.context, PlayerActivity::class.java))
+                        it.context.startActivity(Intent(it.context, ExoplayerActivity::class.java))
                     }
                 }
             }
