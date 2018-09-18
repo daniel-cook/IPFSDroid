@@ -17,4 +17,5 @@
     <string name="download">Download Asset</string>
     <string name="remove_item_from_playlist">Remove Item From Playlist</string>
     <string name="item_thumbnail">Item Thumbnail</string>
+    <string name="browse_title">Browse</string>
 </resources>

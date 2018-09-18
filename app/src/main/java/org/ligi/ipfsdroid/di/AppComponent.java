@@ -9,6 +9,7 @@ import org.ligi.ipfsdroid.activities.feed.FeedActivity;
 import org.ligi.ipfsdroid.activities.player.ExoplayerActivity;
 import org.ligi.ipfsdroid.activities.player.PlayerActivity;
 import org.ligi.ipfsdroid.repository.Repository;
+import org.ligi.ipfsdroid.tv.TvActivity;
 
 @Singleton
 @Component(modules = {AppModule.class})
@@ -26,4 +27,7 @@ public interface AppComponent {
     void inject(DownloadsActivity downloadsActivity);
 
     void inject(Repository repository);
+
+    void inject(TvActivity tvActivity);
+
 }
