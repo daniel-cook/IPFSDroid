@@ -1,7 +1,9 @@
 package org.ligi.ipfsdroid.di
 
 import android.content.Context
+import android.os.Build
 import android.support.annotation.NonNull
+import android.util.Log
 import dagger.Module
 import dagger.Provides
 import io.ipfs.kotlin.IPFS
@@ -30,8 +32,17 @@ class AppModule(val context: Context) {
 
     @Singleton
     @Provides
-    internal fun provideIPFS(providedOkHttp: OkHttpClient)
-            = IPFS(okHttpClient = providedOkHttp)
+    internal fun provideIPFS(providedOkHttp: OkHttpClient): IPFS {
+        // The Localhost ip address is different on the emulator than on a physical device
+        return if(Build.MODEL.contains("google_sdk") ||
+                Build.MODEL.contains("Emulator") ||
+                Build.MODEL.contains("Android SDK")) {
+            IPFS(okHttpClient = providedOkHttp, base_url = "http://10.0.2.2:5001/api/v0/")
+        } else {
+            IPFS(okHttpClient = providedOkHttp)
+        }
+    }
+
 
     @Singleton
     @Provides
