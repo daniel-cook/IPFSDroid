@@ -50,6 +50,37 @@ class MainFragment : BrowseSupportFragment() {
         buildDummyAdapter()
     }
 
+    fun updateBroadCastersView(data: List<BroadCasterWithFeed>?) {
+        data?.let {
+            buildRowsAdapter(it)
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        prepareBackgroundManager()
+        setupUIElements()
+        setupEventListeners()
+        prepareEntranceTransition()
+    }
+
+    private fun buildRowsAdapter(data: List<BroadCasterWithFeed>) {
+
+        categoryRowAdapter?.clear()
+        val videoItemPresenter = VideoItemPresenter(repository)
+
+        for ((index, value: BroadCasterWithFeed) in data.withIndex()) {
+            val listRowAdapter = ArrayObjectAdapter(videoItemPresenter)
+            for (feedItem in value.feedsList.content) {
+                listRowAdapter.add(feedItem)
+            }
+            val headerItem = HeaderItem(index.toLong(), value.broadcaster.name)
+            categoryRowAdapter?.add(ListRow(headerItem, listRowAdapter))
+        }
+
+        adapter = categoryRowAdapter
+    }
+
     /**
      * This hack is required in order to be able to update the rows on the screen when the ViewModel
      * is updated.  The reason for this is that inside BrowseSupportFragment, if mMainFragmentListRowDataAdapter
@@ -69,37 +100,6 @@ class MainFragment : BrowseSupportFragment() {
         }
         adapter = categoryRowAdapter
     }
-
-    fun updateBroadCastersView(data: List<BroadCasterWithFeed>?) {
-        data?.let {
-            buildRowsAdapter(it)
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        prepareBackgroundManager()
-        setupUIElements()
-        setupEventListeners()
-        prepareEntranceTransition()
-    }
-
-    private fun buildRowsAdapter(data: List<BroadCasterWithFeed>) {
-
-        categoryRowAdapter?.clear()
-
-        for ((index, value: BroadCasterWithFeed) in data.withIndex()) {
-            val listRowAdapter = ArrayObjectAdapter(VideoItemPresenter())
-            for (feedItem in value.feedsList.content) {
-                listRowAdapter.add(feedItem.title)
-            }
-            val headerItem = HeaderItem(index.toLong(), value.broadcaster.name)
-            categoryRowAdapter?.add(ListRow(headerItem, listRowAdapter))
-        }
-
-        adapter = categoryRowAdapter
-    }
-
 
     private fun prepareBackgroundManager() {
         backgroundManager = BackgroundManager.getInstance(activity!!)
@@ -153,7 +153,7 @@ class MainFragment : BrowseSupportFragment() {
 
         setOnItemViewSelectedListener { itemViewHolder, item, rowViewHolder, row ->
             if(item is Feed) {
-                updateBackground(item)
+                updateBackground(item)  //TODO could I get the actual image out of this?
             } else {
                 clearBackground()
             }
