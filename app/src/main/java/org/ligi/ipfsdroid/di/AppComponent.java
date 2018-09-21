@@ -1,5 +1,7 @@
 package org.ligi.ipfsdroid.di;
 
+import android.provider.MediaStore;
+
 import dagger.Component;
 import javax.inject.Singleton;
 import org.ligi.ipfsdroid.activities.broadcasters.BroadCastersActivity;
@@ -11,6 +13,7 @@ import org.ligi.ipfsdroid.activities.player.PlayerActivity;
 import org.ligi.ipfsdroid.repository.Repository;
 import org.ligi.ipfsdroid.tv.MainFragment;
 import org.ligi.ipfsdroid.tv.TvActivity;
+import org.ligi.ipfsdroid.tv.details.VideoItemDetailsFragment;
 
 @Singleton
 @Component(modules = {AppModule.class})
@@ -32,5 +35,7 @@ public interface AppComponent {
     void inject(TvActivity tvActivity);
 
     void inject(MainFragment mainFragment);
+
+    void inject(VideoItemDetailsFragment videoItemDetailsFragment);
 
 }

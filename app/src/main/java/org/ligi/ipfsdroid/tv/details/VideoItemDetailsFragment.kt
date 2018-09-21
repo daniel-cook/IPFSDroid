@@ -1,14 +1,21 @@
 package org.ligi.ipfsdroid.tv.details
 
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.v17.leanback.app.DetailsSupportFragment
 import android.support.v17.leanback.widget.*
-import org.ligi.ipfsdroid.R
 import android.support.v17.leanback.widget.ListRow
 import android.support.v17.leanback.widget.HeaderItem
 import android.support.v17.leanback.widget.ArrayObjectAdapter
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import org.ligi.ipfsdroid.App
 import org.ligi.ipfsdroid.model.Feed
+import org.ligi.ipfsdroid.repository.Repository
 import org.ligi.ipfsdroid.tv.StringPresenter
+import java.io.BufferedInputStream
+import javax.inject.Inject
 
 
 /**
@@ -19,6 +26,9 @@ class VideoItemDetailsFragment : DetailsSupportFragment() {
     lateinit var rowsAdapter: ArrayObjectAdapter
 
     lateinit var feed: Feed
+
+    @Inject
+    lateinit var repository: Repository
 
     companion object {
 
@@ -37,13 +47,26 @@ class VideoItemDetailsFragment : DetailsSupportFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        App.component().inject(this)
 
         feed = arguments?.getParcelable<Feed>(ARG_FEED)!!
 
-        buildDetails()
+        doAsync {
+            repository.getImageBitmapFromHash(feed.thumbNail) { it ->
+                val bufferedInputStream = BufferedInputStream(it)
+                val bmp = BitmapFactory.decodeStream(bufferedInputStream)
+
+                uiThread {
+                    buildDetails(BitmapDrawable(bmp))
+                }
+            }
+        }
+
     }
 
-    private fun buildDetails() {
+    private fun buildDetails(bitmapDrawable: BitmapDrawable) {
+
+        // TODO build in some more useful details and add means to click through to a video
 
         val selector = ClassPresenterSelector()
         val rowPresenter = FullWidthDetailsOverviewRowPresenter(DetailsDescriptionPresenter())
@@ -55,9 +78,10 @@ class VideoItemDetailsFragment : DetailsSupportFragment() {
 
         val detailsOverviewRow = DetailsOverviewRow(feed)
 
-        detailsOverviewRow.imageDrawable = activity?.resources?.getDrawable(R.drawable.ic_play_arrow)
-        detailsOverviewRow.addAction(Action(1, "Buy $9.99"))
-        detailsOverviewRow.addAction(Action(2, "Rent $2.99"))
+        detailsOverviewRow.imageDrawable = bitmapDrawable
+        detailsOverviewRow.addAction(Action(1, "Watch Video"))
+        detailsOverviewRow.addAction(Action(2, "Some Other Action"))
+        detailsOverviewRow.addAction(Action(3, "Yet Another Action"))
         rowsAdapter.add(detailsOverviewRow)
 
         // Add a Related items row
