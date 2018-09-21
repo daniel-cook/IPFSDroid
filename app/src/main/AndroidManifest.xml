@@ -6,22 +6,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-feature android:name="android.software.leanback"
+    <uses-feature
+        android:name="android.software.leanback"
         android:required="false" />
-
-    <uses-feature android:name="android.hardware.touchscreen"
+    <uses-feature
+        android:name="android.hardware.touchscreen"
         android:required="false" />
-
-    <!--TODO update the app banner to be specific to this app - 320 x 180 px.-->
 
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:banner="@drawable/interplanetary_banner"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:banner="@drawable/interplanetary_banner"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <service
             android:name=".IPFSDaemonService"
@@ -55,14 +54,17 @@
             android:name=".activities.player.ExoplayerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode" />
 
-        <activity android:name=".tv.TvActivity"
-            android:label="@string/app_name"
+
+        <activity
+            android:name=".tv.TvActivity"
             android:icon="@drawable/interplanetary_banner"
+            android:label="@string/app_name"
             android:logo="@drawable/interplanetary_banner"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.Leanback">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
@@ -71,6 +73,11 @@
             android:name=".tv.MyContentProvider"
             android:authorities="${applicationId}"
             android:exported="false" />
+
+        <activity
+            android:name=".tv.details.VideoItemDetailsActivity"
+            android:label="@string/title_activity_video_item_details"
+            android:theme="@style/Theme.Leanback"/>
 
     </application>
 

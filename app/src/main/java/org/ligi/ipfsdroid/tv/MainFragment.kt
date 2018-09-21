@@ -2,6 +2,7 @@ package org.ligi.ipfsdroid.tv
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v17.leanback.app.BrowseSupportFragment
@@ -17,8 +18,8 @@ import javax.inject.Inject
 import android.support.v17.leanback.widget.ListRow
 import android.support.v17.leanback.widget.HeaderItem
 import android.support.v17.leanback.widget.ArrayObjectAdapter
-
-
+import org.ligi.ipfsdroid.tv.details.VideoItemDetailsActivity
+import org.ligi.ipfsdroid.tv.details.VideoItemDetailsActivity.Companion.EXTRA_FEED
 
 
 /**
@@ -148,7 +149,8 @@ class MainFragment : BrowseSupportFragment() {
         }
 
         setOnItemViewClickedListener { itemViewHolder, item, rowViewHolder, row ->
-            // TODO
+            val feed = item as Feed
+            startActivity(Intent(activity, VideoItemDetailsActivity::class.java).putExtra(EXTRA_FEED, item))
         }
 
         setOnItemViewSelectedListener { itemViewHolder, item, rowViewHolder, row ->
