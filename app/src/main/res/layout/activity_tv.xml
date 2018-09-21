@@ -19,16 +19,9 @@
         android:layout_height="wrap_content"
         android:text="@string/button_update"/>
 
-    <!--TODO delete me if adding programmatically works-->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <!--<fragment-->
-        <!--android:name="org.ligi.ipfsdroid.tv.MainFragment"-->
-        <!--android:id="@+id/main_browse_fragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
 
 </android.support.constraint.ConstraintLayout>

@@ -14,6 +14,7 @@ import io.ipfs.kotlin.model.NamedHash
 import io.ipfs.kotlin.model.VersionInfo
 import org.jetbrains.anko.doAsync
 import org.ligi.ipfsdroid.*
+import org.ligi.ipfsdroid.model.BroadCasterWithFeed
 import org.ligi.ipfsdroid.model.BroadCastersList
 import org.ligi.ipfsdroid.model.Feed
 import org.ligi.ipfsdroid.model.FeedsList
@@ -67,6 +68,20 @@ class Repository(val ipfs: IPFS) {
         val feeds = getStringByHash(GLOBAL_FEEDS_HASH)
         val jsonAdapter = moshi.adapter(BroadCastersList::class.java)
         return jsonAdapter.fromJson(feeds)
+    }
+
+    fun getBroadCastersWithFeeds(): MutableList<BroadCasterWithFeed> {
+        val broadCastersList = getBroadCasters()
+        val broadCastersWithFeedList: MutableList<BroadCasterWithFeed> = mutableListOf()
+        broadCastersList?.broadcasters?.forEach {
+            val feedsList = getFeedForBroadcaster(it.feedHash)
+            feedsList?.let { fl ->
+                val broadCasterWithFeed = BroadCasterWithFeed(it, fl)
+                broadCastersWithFeedList.add(broadCasterWithFeed)
+            }
+
+        }
+        return broadCastersWithFeedList
     }
 
     private fun getFeedForBroadcaster(feedHash: String): FeedsList? {

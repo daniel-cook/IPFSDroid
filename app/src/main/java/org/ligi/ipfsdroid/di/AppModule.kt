@@ -34,7 +34,9 @@ class AppModule(val context: Context) {
     @Provides
     internal fun provideIPFS(providedOkHttp: OkHttpClient): IPFS {
         // The Localhost ip address is different on the emulator than on a physical device
+        Log.d("BuildModel", "BuildModel = ${Build.MODEL}")
         return if(Build.MODEL.contains("google_sdk") ||
+                Build.MODEL.contains("_google_atv") ||
                 Build.MODEL.contains("Emulator") ||
                 Build.MODEL.contains("Android SDK")) {
             IPFS(okHttpClient = providedOkHttp, base_url = "http://10.0.2.2:5001/api/v0/")
