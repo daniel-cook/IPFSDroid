@@ -144,7 +144,7 @@ class MainFragment : BrowseSupportFragment() {
 
     private fun setupEventListeners() {
         setOnSearchClickedListener {
-//            val intent = Intent(activity, SearchActivity::class.java)
+            //            val intent = Intent(activity, SearchActivity::class.java)
 //            startActivity(intent)
         }
 
@@ -154,7 +154,7 @@ class MainFragment : BrowseSupportFragment() {
         }
 
         setOnItemViewSelectedListener { itemViewHolder, item, rowViewHolder, row ->
-            if(item is Feed) {
+            if (item is Feed) {
                 updateBackground(item)  //TODO could I get the actual image out of this?
             } else {
                 clearBackground()
